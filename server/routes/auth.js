@@ -47,7 +47,7 @@ router.post('/login', (req, res) => {
   User.findOne({username: req.body.username})
     .then(user => {
       if (!user) {
-        res.status(401).send({
+        res.status(401).json({
           errorMessage: "The username doesn't exist.",
         });
         return;
@@ -66,31 +66,6 @@ router.post('/login', (req, res) => {
       }
     });
 });
-
-// router.post('/login', (req, res) => {
-//   let currentUser;
-//   User.findOne({username: req.body.username})
-//     .then(async (user) => {
-//       if (!user) {
-//         res.status(401).send({
-//           errorMessage: "The username doesn't exist."
-//         });
-//       } else {
-//         currentUser = user
-//         const passwordCorrect = await bcrypt.compare(req.body.password, user.password);
-//         if(passwordCorrect) {
-//           req.session.currentUser = currentUser
-//           //  console.log("login succesfully", currentUser)
-//           res.status(200).json({message: "Loggedin succesfully", currentUser})
-//         } else {
-//           res.status(401).send({
-//             errorMessage: "Incorrect password"
-//           });
-//         }
-//       }
-//     })
-
-// })
 
 ///LOGOUT
 router.get('/logout', (req, res) => {

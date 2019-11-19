@@ -5,55 +5,25 @@ const service = axios.create({
   withCredentials: true,
 });
 
-// export const signup = async payload => {
-//     const data = await service.post('/auth/signup', payload)
-//     return data
-// }
-
-export const signup = user => {
-  service
-    .post('/auth/signup', user)
-    .then(res => {
-      return res;
-    })
-    .catch(err => {
-      return err;
-    });
+export const signup = async payload => {
+  const data = await service.post('/auth/signup', payload);
+  return data;
 };
 
-// export const login = async user => {
-//   try {
-//     const { data } = await service.post('/auth/login', user);
-//     return data;
-//   } catch {
-//     return null;
-//   }
-// };
-
 export const login = async user => {
-    const  { data }  = await service.post('/auth/login', user);
-    return data;
+  const {data} = await service.post('/auth/login', user);
+  console.log('data', data);
+  return data;
 };
 
 export const logout = async () => {
-  const data = await service.get('/auth/logout');
-  console.log('data', data.data.message);
+  const {data} = await service.get('/auth/logout');
+  // console.log('data', data);
   return data;
 };
 
 export const loggedin = async () => {
-  const data = await service.get('/auth/loggedin');
-  console.log(data.data.user, 'data loggedin');
+  const {data} = await service.get('/auth/loggedin');
+  console.log(data, 'data loggedin');
   return data.data.user;
 };
-
-// export const loggedin = () => {
-//     return service.get('/auth/loggedin')
-
-//     // .then(response => response.data )
-//     .then(res => {
-//         console.log(res.data,"from loggedin auth")
-//         return res.data
-
-//     })
-//   }
