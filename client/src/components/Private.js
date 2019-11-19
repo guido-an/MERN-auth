@@ -6,7 +6,7 @@ class Private extends React.Component {
         loggedInUser: this.props.loggedInUser
     }
   render() {
-      console.log(this.state.loggedInUser, "privaye")
+      
     return (
       <div>
         <h1>SECRET PAGE</h1>

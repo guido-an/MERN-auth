@@ -14,13 +14,16 @@ export default class Login extends Component {
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    const {username, password} = this.state;
-    login({username: username, password: password});
-    this.props.getUser(this.state)
-    
-    this.props.history.push('/private')
+    try {
+      const loggedInUser = await login(this.state);
+      this.props.getUser(loggedInUser.currentUser)
+      // this.props.history.push('/private')
+    } catch(err) {
+      console.log(err)
+    }
+ 
   };
 
   render() {

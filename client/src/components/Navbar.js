@@ -20,7 +20,7 @@ class NavBar extends React.Component {
   }
 
   render() {
-    console.log(this.state.loggedInUser)
+
     return (
       <header>
         <p>
