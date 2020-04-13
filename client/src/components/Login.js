@@ -1,35 +1,36 @@
 import React, {Component} from 'react';
-import {login} from '../api/authService';
+import AuthContext  from '../contexts/AuthContext'
+
 
 export default class Login extends Component {
+  static contextType = AuthContext
+
   state = {
     username: '',
     password: '',
   };
 
   handleChange = e => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     this.setState({
       [name]: value,
     });
   };
 
- 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    login(this.state)
-   .then(loggedInUser => {
-    this.props.getUser(loggedInUser.currentUser)
-    this.props.history.push('/private')
-   })
-    .catch(err => {
-      console.log(err)
-    })
+  handleSubmit = async e => {
+    e.preventDefault()
+    try {
+      const loggedInUser = await this.context.login(this.state);
+      this.context.setUser(loggedInUser.currentUser);
+      this.props.history.push('/private');
+    } catch (err) {
+      
+      console.log(err, "message");
+    }
   };
 
-  
-
   render() {
+    console.log(this.context, 'context')
     return (
       <div>
         <h1>Login</h1>

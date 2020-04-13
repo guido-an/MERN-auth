@@ -1,50 +1,36 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {logout} from '../api/authService';
+import AuthContext  from '../contexts/AuthContext'
 
 class NavBar extends React.Component {
-  state = {loggedInUser: null};
-
-  componentWillReceiveProps(nextProps) { 
-    this.setState({
-      loggedInUser: nextProps.loggedinUser,
-    });
-  }
+  static contextType = AuthContext
 
   logoutUser = () =>{
-    logout()
+    this.context.logout()
     .then(() => {
-      this.setState({ loggedInUser: null });
-      this.props.getUser(null);  
+      this.context.setUser(null);  
     })
   }
 
   render() {
-
     return (
       <header>
-        <p>
+      
           <Link to="/">Home</Link>
-        </p>
-        <p>
+       
+       
           <Link to="/auth/signup">Signup</Link>
-        </p>
-        <p>
+       
+   
           <Link to="/auth/login">Login</Link>
-        </p>
-        <p>
           <Link to="#" onClick={this.logoutUser}>
             Logout
           </Link>
-        </p>
-        <p>
+  
           <Link to="/private">
             Private
           </Link>
-        </p>
-        {this.state.loggedInUser && (
-          <p>Hello {this.state.loggedInUser.username}</p>
-        )}
+    
       </header>
     );
   }

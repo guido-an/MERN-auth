@@ -1,68 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import axios from 'axios';
+import {Route, Switch} from 'react-router-dom';
+import AuthContext  from './contexts/AuthContext'
 import Signup from './components/Signup';
 import Navbar from './components/Navbar';
-import {Route, Switch} from 'react-router-dom';
-import Login from './components/Login';
-import {loggedin} from './api/authService';
 import ProtectedRoute from './components/ProtectedRoute';
 import Private from './components/Private';
+import Login from './components/Login';
+
 
 class App extends React.Component {
-  state = {
-    loggedInUser: null,
-  };
-
-  getTheUser = user => {
-    this.setState({
-      loggedInUser: user,
-    });
-  };
-
-  fetchUser = async () => {
-      try {
-        const res = await loggedin();
-        this.setState({
-          loggedInUser: res,
-        });
-      } catch {
-        this.setState({
-          loggedInUser: null,
-        });
-      }
-  };
+  static contextType = AuthContext
 
   componentDidMount(){
-    this.fetchUser(); 
+    this.context.fetchUser(); 
   }
 
   render() {
-   
+    console.log(this.context, 'from app')
     return (
-      <div className="App">
-        <Route
-          path="/"
-          render={props => (
-            <Navbar
-              {...props}
-              getUser={this.getTheUser}
-              loggedinUser={this.state.loggedInUser}
-            />
-          )}
-        />
+      <div>
+        <Route path="/" component={Navbar}/>
+        <p>Hello {this.context.loggedInUser && this.context.loggedInUser.username}</p>
         <Switch>
           <Route
             path="/auth/signup"
-            render={props => <Signup {...props} getUser={this.getTheUser} />}
+            component={Signup}/>}
           />
           <Route
             path="/auth/login"
-            render={props => <Login {...props} getUser={this.getTheUser} />}
+            component={Login} />}
           />
           <ProtectedRoute
-            user={this.state.loggedInUser}
             path="/private"
             component={Private}
           />

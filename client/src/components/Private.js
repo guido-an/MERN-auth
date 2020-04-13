@@ -1,19 +1,18 @@
-import React from 'react';
+import React from 'react'
 
 class Private extends React.Component {
+  // state = {
+  //     loggedInUser: this.props.loggedInUser
+  // }
 
-    state = {
-        loggedInUser: this.props.loggedInUser
-    }
-  render() {
-      
+  render () {
     return (
       <div>
         <h1>SECRET PAGE</h1>
-        <p>Hello {this.state.loggedInUser.username}</p>
+        {/* <p>Hello {this.state.loggedInUser.username}</p> */}
       </div>
-    );
+    )
   }
 }
 
-export default Private;
+export default Private

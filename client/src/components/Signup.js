@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
-import {signup} from '../api/authService';
+import AuthContext  from '../contexts/AuthContext'
+
 
 export default class Signup extends Component {
+  static contextType = AuthContext
+
   state = {
     username: '',
     password: ''
@@ -14,14 +17,20 @@ export default class Signup extends Component {
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
-    signup(this.state) 
-    // this.props.getUser(this.state)
+    try{
+    await this.context.signup(this.state) 
+    this.context.setUser(this.state)
     this.props.history.push('/')
+    }
+    catch(err){
+      console.log(err)
+    }
   };
+  
   render() {
-
+    console.log(this.context.signup, 'context')
     return (
       <div>
           <h1>Signup</h1>
@@ -30,7 +39,6 @@ export default class Signup extends Component {
           <input onChange={this.handleChange} type="password" name="password" />
           <button>Signup</button>
         </form>
-       
       </div>
     );
   }
